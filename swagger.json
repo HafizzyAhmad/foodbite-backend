@@ -15,14 +15,18 @@
     {
       "name": "User Module",
       "description": "API for users in the system"
+    },
+    {
+      "name": "Food donation Module",
+      "description": "API for Food in the system"
+    },
+    {
+      "name": "Review Module",
+      "description": "API for Review in the system"
     }
   ],
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
   "securityDefinitions": {
     "Authorization": {
       "type": "apiKey",
@@ -34,9 +38,7 @@
   "paths": {
     "/api/v1/user/register": {
       "post": {
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "description": "Create new user in system",
         "parameters": [
           {
@@ -48,9 +50,7 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "New user is created",
@@ -63,9 +63,7 @@
     },
     "/api/v1/user/login": {
       "post": {
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "description": "Login to system",
         "parameters": [
           {
@@ -77,9 +75,7 @@
             }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Logged in successfully",
@@ -92,9 +88,7 @@
     },
     "/api/v1/user/users": {
       "get": {
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "security": [
           {
             "Authorization": []
@@ -123,9 +117,7 @@
       ],
       "delete": {
         "summary": "Delete user profile with given ID",
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "security": [
           {
             "Authorization": []
@@ -142,9 +134,7 @@
       },
       "put": {
         "summary": "Update user with give ID",
-        "tags": [
-          "User Module"
-        ],
+        "tags": ["User Module"],
         "security": [
           {
             "Authorization": []
@@ -169,16 +159,115 @@
           }
         }
       }
+    },
+    "/api/v1/food/donate": {
+      "post": {
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "description": "Create Post for Donation of food in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Post ",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New Food Donation Post is created",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/food/donation/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of donation that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete Food Donation with given ID",
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food Donation is deleted",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Food Donation with give ID",
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Food Donation with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food Donation is updated",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/food/donations": {
+      "get": {
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all food donations in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
     "UserRegister": {
-      "required": [
-        "username",
-        "email",
-        "password",
-        "role"
-      ],
+      "required": ["username", "email", "password", "role"],
       "properties": {
         "username": {
           "type": "string"
@@ -195,10 +284,7 @@
       }
     },
     "UserLogin": {
-      "required": [
-        "email",
-        "password"
-      ],
+      "required": ["email", "password"],
       "properties": {
         "email": {
           "type": "string"
@@ -209,13 +295,7 @@
       }
     },
     "UserProfile": {
-      "required": [
-        "username",
-        "email",
-        "password",
-        "role",
-        "profile"
-      ],
+      "required": ["username", "email", "password", "role", "profile"],
       "properties": {
         "username": {
           "type": "string"
@@ -237,6 +317,105 @@
     "Users": {
       "type": "array",
       "$ref": "#/definitions/UserProfile"
+    },
+    "FoodDonation": {
+      "required": [
+        "donation",
+        "address",
+        "postcode",
+        "city",
+        "state",
+        "city",
+        "mobileNumber",
+        "latitude",
+        "longitude",
+        "statusAvailability",
+        "items"
+      ],
+      "properties": {
+        "donation": {
+          "type": "object",
+          "properties": {
+            "donationType": {
+              "type": "string",
+              "description": "type of donation"
+            },
+            "donationName": {
+              "type": "string",
+              "description": "name of donation"
+            }
+          }
+        },
+        "address": {
+          "type": "string",
+          "description": "address of the store"
+        },
+        "postcode": {
+          "type": "number",
+          "description": "postcode of the store"
+        },
+        "city": {
+          "type": "string",
+          "description": "city of the store"
+        },
+        "state": {
+          "type": "string",
+          "description": "state of the store"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "description": "mobileNumber of the store owner"
+        },
+        "geoLocation": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "string",
+              "description": "latitude of the store"
+            },
+            "longitude": {
+              "type": "string",
+              "description": "longitude of the store"
+            }
+          }
+        },
+        "statusAvailability": {
+          "type": "object",
+          "properties": {
+            "startDateTime": {
+              "type": "string",
+              "description": "startDateTime of business"
+            },
+            "endDateTime": {
+              "type": "string",
+              "description": "endDateTime of business"
+            },
+            "status": {
+              "type": "string",
+              "description": "status of business"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FoodItem"
+          }
+        }
+      }
+    },
+    "FoodItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "type of Food donation item"
+        },
+        "price": {
+          "type": "number",
+          "description": "price of Food donation item"
+        }
+      }
     }
   }
 }
