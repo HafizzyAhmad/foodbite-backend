@@ -263,6 +263,34 @@
           }
         }
       }
+    },
+    "/api/v1/food/donations/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of donation that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all food donations by createdById in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

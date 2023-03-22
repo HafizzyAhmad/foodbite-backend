@@ -52,9 +52,7 @@ exports.createFood = async (req, res, next) => {
       items,
     };
     const food = await new Food(foodObj).save();
-    return res
-      .status(201)
-      .json({ food: { ...food._doc } });
+    return res.status(201).json({ food: { ...food._doc } });
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -65,7 +63,24 @@ exports.getFoods = async (req, res, next) => {
   try {
     const food = await Food.find();
     if (!food)
-      return res.status(400).send("Food Donationas not found, Authorization denied..");
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
+    return res.status(200).json({ ...food });
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
+exports.getFoodsById = async (req, res, next) => {
+  const { id } = req.params;
+  console.log("FindById :: >>", id);
+  try {
+    const food = await Food.find({ createdById: id });
+    if (!food)
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
     return res.status(200).json({ ...food });
   } catch (error) {
     return res.status(500).send(error.message);
