@@ -7,6 +7,9 @@ const Food = require("../models/Food");
 exports.createFood = async (req, res, next) => {
   console.log("FoodCreate", req.body);
   const {
+    image,
+    type,
+    createdById,
     donation,
     address,
     postcode,
@@ -19,6 +22,9 @@ exports.createFood = async (req, res, next) => {
   } = req.body;
   console.log("Register", req.body);
   if (
+    !image ||
+    !type ||
+    !createdById ||
     !donation ||
     !address ||
     !postcode ||
@@ -32,6 +38,9 @@ exports.createFood = async (req, res, next) => {
     return res.status(400).send("Please fill in all the required fields!");
   try {
     const foodObj = {
+      image,
+      type,
+      createdById,
       donation,
       address,
       postcode,

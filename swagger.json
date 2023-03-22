@@ -320,6 +320,7 @@
     },
     "FoodDonation": {
       "required": [
+        "createById",
         "donation",
         "address",
         "postcode",
@@ -333,6 +334,18 @@
         "items"
       ],
       "properties": {
+        "image": {
+          "type": "string",
+          "description": "image of donation"
+        },
+        "type": {
+          "type": "string",
+          "description": "type of donation"
+        },
+        "createdById": {
+          "type": "string",
+          "description": "Creator Id"
+        },
         "donation": {
           "type": "object",
           "properties": {

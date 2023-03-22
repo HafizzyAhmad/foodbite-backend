@@ -2,6 +2,18 @@ const mongoose = require("mongoose");
 
 const FoodSchema = new mongoose.Schema(
   {
+    image: {
+      type: String,
+      required: [true, "Image of donatino is required"],
+    },
+    type: {
+      type: String,
+      required: [true, "Type of donation"],
+    },
+    createdById: {
+      type: String,
+      required: [true, "Creator Id is required"],
+    },
     donation: {
       type: mongoose.SchemaTypes.Mixed,
       required: [true, "Donation is required"],
