@@ -377,11 +377,11 @@
         "donation": {
           "type": "object",
           "properties": {
-            "donationType": {
+            "name": {
               "type": "string",
               "description": "type of donation"
             },
-            "donationName": {
+            "description": {
               "type": "string",
               "description": "name of donation"
             }
