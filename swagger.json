@@ -264,6 +264,48 @@
         }
       }
     },
+    "/api/v1/food/donations/lat={centerLat}&long={centerLong}&distance={distance}": {
+      "parameters": [
+        {
+          "name": "centerLat",
+          "in": "path",
+          "required": true,
+          "description": "Latitude of the current MapView center that we want to find",
+          "type": "number"
+        },
+        {
+          "name": "centerLong",
+          "in": "path",
+          "required": true,
+          "description": "Longitude of the current MapView center that we want to find",
+          "type": "number"
+        },
+        {
+          "name": "distance",
+          "in": "path",
+          "required": true,
+          "description": "Distance range which want to get from the current MapView. ( Km )",
+          "type": "number"
+        }
+      ],
+      "get": {
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get food donations by MapView range(centerLocation and distance) in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/food/donations/{id}": {
       "parameters": [
         {
