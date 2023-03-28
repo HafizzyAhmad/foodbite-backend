@@ -333,6 +333,166 @@
           }
         }
       }
+    },
+    "/api/v1/rating/create": {
+      "post": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "description": "Create Post for Donation of food in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Post ",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New Rating is created",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rating/allRatings": {
+      "get": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all Ratings in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rating/ratings/userId={userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user who we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all ratings for userId in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rating/ratings/ratorId={ratorId}": {
+      "parameters": [
+        {
+          "name": "ratorId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user who we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all ratings given by ratorId in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rating/ratings/id={id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of rating that we want to find",
+          "type": "string"
+        }
+      ],
+      "delete": {
+        "summary": "Delete Rating with given ID",
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating is deleted",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Rating with give ID",
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Rating",
+            "in": "body",
+            "description": "Rating with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating is updated",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -497,6 +657,31 @@
         "price": {
           "type": "number",
           "description": "price of Food donation item"
+        }
+      }
+    },
+    "Rating": {
+      "required": ["userId", "ratorUserId", "rating", "feedback"],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User Id who is receiving reviews."
+        },
+        "ratorUserId": {
+          "type": "string",
+          "description": "User Id who gives reviews"
+        },
+        "ratingValue": {
+          "type": "number",
+          "description": "Rating value"
+        },
+        "image": {
+          "type": "string",
+          "description": "Image in the review"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Feedback description of the review"
         }
       }
     }
