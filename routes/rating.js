@@ -9,6 +9,11 @@ const router = Router({ strict: true });
 router.post("/create", isAuth, ratingController.createRating);
 router.get("/allRatings", isAuth, ratingController.getAllRatings);
 router.get(
+  "/recommendedUserByRating",
+  isAuth,
+  ratingController.getRecommendedUsersByRating
+);
+router.get(
   "/ratings/userId=:userId",
   isAuth,
   ratingController.getRatingsByUserId

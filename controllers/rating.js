@@ -59,6 +59,52 @@ exports.getRatingsByUserId = async (req, res, next) => {
   }
 };
 
+const getRatingItem = async (user) => {
+  let resId = user._id.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+  try {
+    const rating = await Rating.find({
+      userId: resId,
+    });
+    const donation = await Food.find({
+      createdById: resId,
+    });
+    let sumRating = 0;
+    rating.map((item) => (sumRating += item.ratingValue));
+    let ratingScore = rating.length !== 0 ? sumRating / rating.length : -1;
+    let itemRes = {
+      userId: resId,
+      providerName: user.username,
+      ratingScore: ratingScore,
+      totalRaters: rating.length,
+      foodDonation: donation,
+      reviews: rating,
+    };
+    return itemRes;
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
+exports.getRecommendedUsersByRating = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    if (!users)
+      return res.status(400).send("Users not found, Authorization denied...");
+    const result = await Promise.all(
+      users.map(async (user) => {
+        const response = await getRatingItem(user);
+        return response;
+      })
+    );
+    result.sort((a, b) =>
+      a.ratingScore > b.ratingScore ? -1 : b.ratingScore > a.ratingScore ? 1 : 0
+    );
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 exports.getRatingsByRatorUserId = async (req, res, next) => {
   const { ratorId } = req.params;
   console.log("FindByUserId :: >>", ratorId);

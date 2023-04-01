@@ -383,6 +383,25 @@
         }
       }
     },
+    "/api/v1/rating/recommendedUserByRating": {
+      "get": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get all Ratings in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RatingItem"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/rating/ratings/userId={userId}": {
       "parameters": [
         {
@@ -682,6 +701,38 @@
         "feedback": {
           "type": "string",
           "description": "Feedback description of the review"
+        }
+      }
+    },
+    "RatingItem": {
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": ""
+        },
+        "providerName": {
+          "type": "string",
+          "description": ""
+        },
+        "ratingScore": {
+          "type": "number",
+          "description": ""
+        },
+        "totalRators": {
+          "type": "number",
+          "description": ""
+        },
+        "foodDonation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FoodDonation"
+          }
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Rating"
+          }
         }
       }
     }
