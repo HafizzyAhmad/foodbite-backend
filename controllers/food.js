@@ -87,6 +87,45 @@ exports.getFoodsById = async (req, res, next) => {
   }
 };
 
+const calcDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371e3;
+  const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const d = R * c; // in metres
+  return d * 0.001;
+};
+
+exports.getFoodsBySpecLocation = async (req, res, next) => {
+  const { centerLat, centerLong, distance } = req.params;
+  try {
+    const food = await Food.find();
+    if (!food)
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
+    let tempRes = food.filter(
+      (item) =>
+        calcDistance(
+          centerLat,
+          centerLong,
+          item.geoLocation.latitude,
+          item.geoLocation.longitude
+        ) < distance
+    );
+    return res.status(200).json({ ...tempRes });
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 exports.updateFoodDonation = async (req, res, next) => {
   const { id } = req.params;
   console.log("Updating Food ID:: >>", id);

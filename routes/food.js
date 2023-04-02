@@ -8,6 +8,11 @@ const router = Router({ strict: true });
 // router.post("/login", userController.login);
 router.post("/donate", isAuth, foodController.createFood);
 router.get("/donations", isAuth, foodController.getFoods);
+router.get(
+  "/donations/lat=:centerLat&long=:centerLong&distance=:distance",
+  isAuth,
+  foodController.getFoodsBySpecLocation
+);
 router.get("/donations/:id", isAuth, foodController.getFoodsById);
 router
   .route("/donation/:id")
