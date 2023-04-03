@@ -122,7 +122,7 @@ exports.getFoodsBySpecLocation = async (req, res, next) => {
           item.geoLocation.longitude
         ) < distance
     );
-    return res.status(200).json({ ...tempRes });
+    return res.status(200).json(tempRes);
   } catch (error) {
     return res.status(500).send(error.message);
   }
