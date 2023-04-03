@@ -5,7 +5,6 @@ const foodController = require("../controllers/food");
 
 const router = Router({ strict: true });
 
-// router.post("/login", userController.login);
 router.post("/donate", isAuth, foodController.createFood);
 router.get("/donations", isAuth, foodController.getFoods);
 router.get(
