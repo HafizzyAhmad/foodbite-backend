@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const RatingSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: [true, "Image of donatino is required"],
     },
     ratorUserId: {

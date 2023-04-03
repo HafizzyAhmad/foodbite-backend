@@ -11,7 +11,7 @@ const FoodSchema = new mongoose.Schema(
       required: [true, "Type of donation"],
     },
     createdById: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: [true, "Creator Id is required"],
     },
     donation: {

@@ -1,11 +1,7 @@
-// const { hash, compare } = require("bcryptjs");
-// const { sign } = require("jsonwebtoken");
-
-// const User = require("../models/User");
 const Food = require("../models/Food");
+const mongoose = require("mongoose");
 
 exports.createFood = async (req, res, next) => {
-  console.log("FoodCreate", req.body);
   const {
     image,
     type,
@@ -20,7 +16,6 @@ exports.createFood = async (req, res, next) => {
     statusAvailability,
     items,
   } = req.body;
-  console.log("Register", req.body);
   if (
     !image ||
     !type ||
@@ -36,11 +31,12 @@ exports.createFood = async (req, res, next) => {
     !items
   )
     return res.status(400).send("Please fill in all the required fields!");
+  const id = mongoose.Types.ObjectId(createdById);
   try {
     const foodObj = {
       image,
       type,
-      createdById,
+      createdById: id,
       donation,
       address,
       postcode,
@@ -66,7 +62,13 @@ exports.getFoods = async (req, res, next) => {
       return res
         .status(400)
         .send("Food Donationas not found, Authorization denied..");
-    return res.status(200).json({ ...food });
+    console.log(
+      "FoodID",
+      food[0].createdById,
+      typeof food[0].createdById,
+      food[0].createdById
+    );
+    return res.status(200).json(food);
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -81,7 +83,7 @@ exports.getFoodsById = async (req, res, next) => {
       return res
         .status(400)
         .send("Food Donationas not found, Authorization denied..");
-    return res.status(200).json({ ...food });
+    return res.status(200).json(food);
   } catch (error) {
     return res.status(500).send(error.message);
   }

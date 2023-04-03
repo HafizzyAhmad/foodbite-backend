@@ -5,7 +5,6 @@ const ratingController = require("../controllers/rating");
 
 const router = Router({ strict: true });
 
-// router.post("/login", userController.login);
 router.post("/create", isAuth, ratingController.createRating);
 router.get("/allRatings", isAuth, ratingController.getAllRatings);
 router.get(
