@@ -3,12 +3,15 @@ const dotenv = require("dotenv");
 const logger = require("morgan");
 const cors = require("cors");
 require("colors");
+const bodyParser = require('body-parser');
 
 const db = require("./config/db");
 const swaggerUi = require('swagger-ui-express'),
 swaggerDocument = require('./swagger.json');
 
 const app = express();
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 dotenv.config({ path: "./config/config.env" });
 
