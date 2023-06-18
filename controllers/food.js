@@ -1,4 +1,5 @@
 const Food = require("../models/Food");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 
 exports.createFood = async (req, res, next) => {
@@ -57,18 +58,28 @@ exports.createFood = async (req, res, next) => {
 exports.getFoods = async (req, res, next) => {
   console.log("req", req.food);
   try {
-    const food = await Food.find();
-    if (!food)
-      return res
-        .status(400)
-        .send("Food Donationas not found, Authorization denied..");
-    console.log(
-      "FoodID",
-      food[0].createdById,
-      typeof food[0].createdById,
-      food[0].createdById
-    );
-    return res.status(200).json(food);
+    const foods = await Food.find();
+
+    if (!foods || foods.length === 0) {
+      return res.status(404).send("Food Donations not found.");
+    }
+    const userIds = foods.map(food => food.createdById);
+    const users = await User.find({ _id: { $in: userIds } });
+    const foodsWithUser = foods.map(food => {
+      const { _id, createdById, ...rest } = food.toObject();
+      const user = users.find(user => user._id.equals(createdById));
+      const username = user ? user.username : "Unknown User";
+
+      return {
+        _id,
+        createdById: {
+          id: createdById.toHexString(),
+          username
+        },
+        ...rest
+      };
+    });
+    return res.status(200).json(foodsWithUser);
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -122,7 +133,23 @@ exports.getFoodsBySpecLocation = async (req, res, next) => {
           item.geoLocation.longitude
         ) < distance
     );
-    return res.status(200).json(tempRes);
+    const userIds = tempRes.map(food => food.createdById);
+    const users = await User.find({ _id: { $in: userIds } });
+    const foodsWithUser = tempRes.map(food => {
+      const { _id, createdById, ...rest } = food.toObject();
+      const user = users.find(user => user._id.equals(createdById));
+      const username = user ? user.username : "Unknown User";
+
+      return {
+        _id,
+        createdById: {
+          id: createdById.toHexString(),
+          username
+        },
+        ...rest
+      };
+  })
+    return res.status(200).json(foodsWithUser);
   } catch (error) {
     return res.status(500).send(error.message);
   }
