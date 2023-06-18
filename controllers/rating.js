@@ -57,6 +57,29 @@ exports.getRatingsByUserId = async (req, res, next) => {
   }
 };
 
+exports.getRatingsByOwnerDonation = async (req, res, next) => {
+  const { userId } = req.params;
+  console.log("FindById :: >>", userId);
+  try {
+    const rating = await Rating.find({ userId: userId });
+    if (!rating)
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
+    let tempRes = 0;
+    rating.map((item) => (tempRes += item.ratingValue));
+    let ratingScore = tempRes / rating.length;
+    return res.status(200).json({
+      userId: userId,
+      ratingScore: ratingScore,
+      totalRaters: rating.length,
+      reviews: rating,
+    });
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 exports.getRecommendedUsersByRating = async (req, res, next) => {
   try {
     const users = await User.aggregate([
