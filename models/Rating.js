@@ -8,7 +8,11 @@ const RatingSchema = new mongoose.Schema(
     },
     ratorUserId: {
       type: String,
-      required: [true, "Type of donation"],
+      required: [true, "Raters Id"],
+    },
+    raterUserName: {
+      type: String,
+      required: [true, "Raters Username"],
     },
     ratingValue: {
       type: Number,

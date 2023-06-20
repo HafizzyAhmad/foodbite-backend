@@ -3,13 +3,15 @@ const Food = require("../models/Food");
 const Rating = require("../models/Rating");
 
 exports.createRating = async (req, res, next) => {
-  const { userId, ratorUserId, ratingValue, image, feedback } = req.body;
-  if (!userId || !ratorUserId || !ratingValue || !feedback)
+  const { userId, ratorUserId, ratingValue, image, feedback, raterUserName } = req.body;
+  console.log('TEST', req.body)
+  if (!userId || !ratorUserId || !ratingValue)
     return res.status(400).send("Please fill in all the required fields!");
   try {
     const ratingObj = {
       userId,
       ratorUserId,
+      raterUserName,
       ratingValue,
       image,
       feedback,
