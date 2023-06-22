@@ -7,6 +7,7 @@ exports.createFood = async (req, res, next) => {
     image,
     type,
     createdById,
+    createdByUserName,
     donation,
     address,
     postcode,
@@ -17,10 +18,13 @@ exports.createFood = async (req, res, next) => {
     statusAvailability,
     items,
   } = req.body;
+
+  console.log('CHECK REQ BODY: ', req.body);
   if (
     !image ||
     !type ||
     !createdById ||
+    !createdByUserName ||
     !donation ||
     !address ||
     !postcode ||
@@ -38,6 +42,7 @@ exports.createFood = async (req, res, next) => {
       image,
       type,
       createdById: id,
+      createdByUserName: createdByUserName,
       donation,
       address,
       postcode,
@@ -49,6 +54,7 @@ exports.createFood = async (req, res, next) => {
       items,
     };
     const food = await new Food(foodObj).save();
+    console.log('CHECK FOOD: ', food);
     return res.status(201).json({ food: { ...food._doc } });
   } catch (error) {
     return res.status(500).send(error.message);
