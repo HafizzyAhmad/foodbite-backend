@@ -111,7 +111,7 @@ exports.getRecommendedUsersByRating = async (req, res, next) => {
             : user.ratings.reduce((a, b) => a + b.ratingValue, 0) / totalRators;
         return {
           userId: user._id,
-          providerName: user.name,
+          providerName: user.username,
           ratingScore,
           totalRators,
           reviews: user.ratings,
