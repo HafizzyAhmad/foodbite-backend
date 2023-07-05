@@ -430,6 +430,34 @@
         }
       }
     },
+    "/api/v1/rating/ratingsByPost/userId={userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user who we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Review Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get post owner rating by donation in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Rating"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/rating/ratings/ratorId={ratorId}": {
       "parameters": [
         {

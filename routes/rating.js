@@ -18,6 +18,11 @@ router.get(
   ratingController.getRatingsByUserId
 );
 router.get(
+  "/ratingsByPost/userId=:userId",
+  isAuth,
+  ratingController.getRatingsByOwnerDonation
+);
+router.get(
   "/ratings/ratorId=:ratorId",
   isAuth,
   ratingController.getRatingsByRatorUserId

@@ -3,13 +3,15 @@ const Food = require("../models/Food");
 const Rating = require("../models/Rating");
 
 exports.createRating = async (req, res, next) => {
-  const { userId, ratorUserId, ratingValue, image, feedback } = req.body;
-  if (!userId || !ratorUserId || !ratingValue || !feedback)
+  const { userId, ratorUserId, ratingValue, image, feedback, raterUserName } = req.body;
+  console.log('TEST', req.body)
+  if (!userId || !ratorUserId || !ratingValue)
     return res.status(400).send("Please fill in all the required fields!");
   try {
     const ratingObj = {
       userId,
       ratorUserId,
+      raterUserName,
       ratingValue,
       image,
       feedback,
@@ -57,6 +59,29 @@ exports.getRatingsByUserId = async (req, res, next) => {
   }
 };
 
+exports.getRatingsByOwnerDonation = async (req, res, next) => {
+  const { userId } = req.params;
+  console.log("FindById :: >>", userId);
+  try {
+    const rating = await Rating.find({ userId: userId });
+    if (!rating)
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
+    let tempRes = 0;
+    rating.map((item) => (tempRes += item.ratingValue));
+    let ratingScore = tempRes / rating.length;
+    return res.status(200).json({
+      userId: userId,
+      ratingScore: ratingScore,
+      totalRaters: rating.length,
+      reviews: rating,
+    });
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 exports.getRecommendedUsersByRating = async (req, res, next) => {
   try {
     const users = await User.aggregate([
@@ -86,7 +111,7 @@ exports.getRecommendedUsersByRating = async (req, res, next) => {
             : user.ratings.reduce((a, b) => a + b.ratingValue, 0) / totalRators;
         return {
           userId: user._id,
-          providerName: user.name,
+          providerName: user.username,
           ratingScore,
           totalRators,
           reviews: user.ratings,

@@ -14,6 +14,10 @@ const FoodSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: [true, "Creator Id is required"],
     },
+    createdByUserName: {
+      type: String,
+      required: [true, "Username is required"],
+    },
     donation: {
       type: mongoose.SchemaTypes.Mixed,
       required: [true, "Donation is required"],
