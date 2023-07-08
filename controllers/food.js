@@ -106,6 +106,20 @@ exports.getFoodsById = async (req, res, next) => {
   }
 };
 
+exports.getFoodByFoodId = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const food = await Food.findById(id);
+    if (!food)
+      return res
+        .status(400)
+        .send("Food Donationas not found, Authorization denied..");
+    return res.status(200).json(food);
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 const calcDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371e3;
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians

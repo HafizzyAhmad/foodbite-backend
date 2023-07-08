@@ -243,6 +243,32 @@
             }
           }
         }
+      },
+      "get": {
+        "summary": "Get Food Donation with give ID",
+        "tags": ["Food donation Module"],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Get food donation from id given",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FoodDonation"
+            }
+          }
+        }
       }
     },
     "/api/v1/food/donations": {

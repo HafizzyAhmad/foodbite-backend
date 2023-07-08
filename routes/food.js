@@ -15,6 +15,7 @@ router.get(
 router.get("/donations/:id", isAuth, foodController.getFoodsById);
 router
   .route("/donation/:id")
+  .get(isAuth, foodController.getFoodByFoodId)
   .put(isAuth, foodController.updateFoodDonation)
   .delete(isAuth, foodController.deleteFoodDonation);
 
